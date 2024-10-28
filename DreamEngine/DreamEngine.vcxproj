@@ -165,6 +165,8 @@
     <ClCompile Include="DreamEngine.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
     <ClCompile Include="glad.c" />
+    <ClCompile Include="Rendering\OpenGL\BufferCode\DrawObject.cpp" />
+    <ClCompile Include="Rendering\OpenGL\BufferCode\DrawObjectTwoTexture.cpp" />
     <ClCompile Include="Rendering\OpenGL\RenderOpenGL.cpp" />
     <ClCompile Include="Rendering\OpenGL\Shader.cpp" />
     <ClCompile Include="Rendering\OpenGL\Util\ShaderUtil.cpp" />
@@ -183,8 +185,9 @@
     <ClInclude Include="Core\Image\ImageUtil.h" />
     <ClInclude Include="Core\Object.h" />
     <ClInclude Include="Game\GameMain.h" />
-    <ClInclude Include="Plugin\stb_Image\stb_image.cpp" />
     <ClInclude Include="Plugin\stb_Image\stb_image.h" />
+    <ClInclude Include="Rendering\OpenGL\BufferCode\DrawObject.h" />
+    <ClInclude Include="Rendering\OpenGL\BufferCode\DrawObjectTwoTexture.h" />
     <ClInclude Include="Rendering\OpenGL\RenderOpenGL.h" />
     <ClInclude Include="Rendering\OpenGL\Shader.h" />
     <ClInclude Include="Rendering\OpenGL\Util\ShaderUtil.h" />
