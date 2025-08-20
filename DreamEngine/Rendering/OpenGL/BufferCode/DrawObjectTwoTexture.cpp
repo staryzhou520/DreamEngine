@@ -47,60 +47,60 @@ void DrawObjectTwoTexture::InitDrwBuffer()
     // 穿数据到Buffer
     glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices),Vertices,GL_STATIC_DRAW);
 
-    // 纹理
-    glGenTextures(1,&texture1);
-    // 激活UV0，第一套UV
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D,texture1);
-    
-    
-    // 设置环绕和过滤方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    std::string TexPath = "/Saved/Image/wall.jpg";
-    int Width, Height, NrChannels;
-    unsigned char* ImageData = ImageUtil::LoadImage(FileUtil::ConvertToAbsolutePath(TexPath.c_str()), Width, Height, NrChannels);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    // 手动释放ImageData内存
-    ImageUtil::ReleaseImageData(ImageData);
-    
-    glGenTextures(1,&texture2);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D,texture2);
-    
-    // 设置环绕和过滤方式
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    
-    std::string Tex2Path = "/Saved/Image/awesomeface.png";
-    int Width2, Height2, NrChannels2;
-    unsigned char* ImageData2 = ImageUtil::LoadImage(FileUtil::ConvertToAbsolutePath(Tex2Path.c_str()), Width2, Height2, NrChannels2);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width2, Height2, 0, GL_RGBA, GL_UNSIGNED_BYTE, ImageData2);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    ImageUtil::ReleaseImageData(ImageData2);
-    
-    // 定义顶点, 2代表顶点是二维的
-    glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,0);
-    glEnableVertexAttribArray(0);
-
-    // 定义顶点颜色
-    glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,(void*) (3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,(void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
-    
-    CurShader = new Shader("/Rendering/OpenGL/ShaderCode/shader_1.vs","/Rendering/OpenGL/ShaderCode/shader_1.fs");
-
-    CurShader->Use(); // don't forget to activate the shader before setting uniforms!  
-    glUniform1i(glGetUniformLocation(CurShader->ProgramID, "texture1"), 0); // set it manually
-    CurShader->SetInt("texture2", 1);
+    // // 纹理
+    // glGenTextures(1,&texture1);
+    // // 激活UV0，第一套UV
+    // glActiveTexture(GL_TEXTURE0);
+    // glBindTexture(GL_TEXTURE_2D,texture1);
+    //
+    //
+    // // 设置环绕和过滤方式
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //
+    // std::string TexPath = "/Saved/Image/wall.jpg";
+    // int Width, Height, NrChannels;
+    // unsigned char* ImageData = ImageUtil::LoadImage(FileUtil::ConvertToAbsolutePath(TexPath.c_str()), Width, Height, NrChannels);
+    //
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width, Height, 0, GL_RGB, GL_UNSIGNED_BYTE, ImageData);
+    // glGenerateMipmap(GL_TEXTURE_2D);
+    //
+    // // 手动释放ImageData内存
+    // ImageUtil::ReleaseImageData(ImageData);
+    //
+    // glGenTextures(1,&texture2);
+    // glActiveTexture(GL_TEXTURE1);
+    // glBindTexture(GL_TEXTURE_2D,texture2);
+    //
+    // // 设置环绕和过滤方式
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);   
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //
+    // std::string Tex2Path = "/Saved/Image/awesomeface.png";
+    // int Width2, Height2, NrChannels2;
+    // unsigned char* ImageData2 = ImageUtil::LoadImage(FileUtil::ConvertToAbsolutePath(Tex2Path.c_str()), Width2, Height2, NrChannels2);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, Width2, Height2, 0, GL_RGBA, GL_UNSIGNED_BYTE, ImageData2);
+    // glGenerateMipmap(GL_TEXTURE_2D);
+    // ImageUtil::ReleaseImageData(ImageData2);
+    //
+    // // 定义顶点, 2代表顶点是二维的
+    // glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,0);
+    // glEnableVertexAttribArray(0);
+    //
+    // // 定义顶点颜色
+    // glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,(void*) (3 * sizeof(float)));
+    // glEnableVertexAttribArray(1);
+    //
+    // glVertexAttribPointer(2,2,GL_FLOAT,GL_FALSE,sizeof(float) * ONE_VERTICE_DATA_NUM,(void*)(6 * sizeof(float)));
+    // glEnableVertexAttribArray(2);
+    //
+    // CurShader = new Shader("/Rendering/OpenGL/ShaderCode/shader_1.vs","/Rendering/OpenGL/ShaderCode/shader_1.fs");
+    //
+    // CurShader->Use(); // don't forget to activate the shader before setting uniforms!  
+    // glUniform1i(glGetUniformLocation(CurShader->ProgramID, "texture1"), 0); // set it manually
+    // CurShader->SetInt("texture2", 1);
 }
