@@ -161,6 +161,7 @@
   <ItemGroup>
     <ClCompile Include="Core\FileSystem\FileUtil.cpp" />
     <ClCompile Include="Core\Image\ImageUtil.cpp" />
+    <ClCompile Include="Core\Input\InputFactory.cpp" />
     <ClCompile Include="Core\Object.cpp" />
     <ClCompile Include="DreamEngine.cpp" />
     <ClCompile Include="Game\GameMain.cpp" />
@@ -172,8 +173,11 @@
     <ClCompile Include="Rendering\OpenGL\Util\ShaderUtil.cpp" />
     <ClCompile Include="Rendering\RenderCore\RenderBase.cpp" />
     <ClCompile Include="Rendering\RenderCore\RenderMain.cpp" />
+    <ClCompile Include="Core\Input\WindowsInputProcessor.cpp" />
+    <ClCompile Include="Core\Input\MobileInputProcessor.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="README.md" />
     <Content Include="Rendering\OpenGL\Readme.md" />
     <Content Include="Rendering\OpenGL\ShaderCode\shader_1.vs" />
     <Content Include="Rendering\README.md" />
@@ -183,6 +187,7 @@
   <ItemGroup>
     <ClInclude Include="Core\FileSystem\FileUtil.h" />
     <ClInclude Include="Core\Image\ImageUtil.h" />
+    <ClInclude Include="Core\Input\InputFactory.h" />
     <ClInclude Include="Core\Object.h" />
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Plugin\stb_Image\stb_image.h" />
@@ -193,6 +198,9 @@
     <ClInclude Include="Rendering\OpenGL\Util\ShaderUtil.h" />
     <ClInclude Include="Rendering\RenderCore\RenderBase.h" />
     <ClInclude Include="Rendering\RenderCore\RenderMain.h" />
+    <ClInclude Include="Core\Input\IInputProcessor.h" />
+    <ClInclude Include="Core\Input\WindowsInputProcessor.h" />
+    <ClInclude Include="Core\Input\MobileInputProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Rendering\OpenGL\ShaderCode\shader_1.fs" />
