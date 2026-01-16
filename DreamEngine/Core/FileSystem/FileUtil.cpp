@@ -44,6 +44,15 @@ std::string FileUtil::ConvertToAbsolutePath(const char* RelativePath)
     char buff[FILENAME_MAX];
     FileUtil_GETCWD( buff, FILENAME_MAX );
     std::string current_working_dir(buff);
+    
+    // 添加路径分隔符
+    if (!current_working_dir.empty() && 
+        current_working_dir.back() != '/' && 
+        current_working_dir.back() != '\\')
+    {
+        current_working_dir.append("/");
+    }
+    
     current_working_dir.append(RelativePath);
     
     std::cout<<"FileUtil::ConvertToAbsolutePath from: "<<RelativePath<<"   to: "<<current_working_dir<<std::endl;
