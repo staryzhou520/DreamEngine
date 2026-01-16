@@ -1,12 +1,12 @@
 ﻿#include "RenderMain.h"
 
 #include "RenderBase.h"
-#include "../OpenGL/RenderOpenGL.h"
+#include "RenderFactory.h"
 
 
 void RenderMain::Init()
 {
-    Render = new RenderOpenGL();
+    Render = RenderFactory::CreateRenderer(RenderType::OpenGL);
     Render->Init();
 }
 

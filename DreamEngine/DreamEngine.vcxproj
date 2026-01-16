@@ -172,6 +172,7 @@
     <ClCompile Include="Rendering\OpenGL\Shader.cpp" />
     <ClCompile Include="Rendering\OpenGL\Util\ShaderUtil.cpp" />
     <ClCompile Include="Rendering\RenderCore\RenderBase.cpp" />
+    <ClCompile Include="Rendering\RenderCore\RenderFactory.cpp" />
     <ClCompile Include="Rendering\RenderCore\RenderMain.cpp" />
     <ClCompile Include="Core\Input\WindowsInputProcessor.cpp" />
     <ClCompile Include="Core\Input\MobileInputProcessor.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Rendering\OpenGL\Shader.h" />
     <ClInclude Include="Rendering\OpenGL\Util\ShaderUtil.h" />
     <ClInclude Include="Rendering\RenderCore\RenderBase.h" />
+    <ClInclude Include="Rendering\RenderCore\RenderFactory.h" />
     <ClInclude Include="Rendering\RenderCore\RenderMain.h" />
     <ClInclude Include="Core\Input\IInputProcessor.h" />
     <ClInclude Include="Core\Input\WindowsInputProcessor.h" />
