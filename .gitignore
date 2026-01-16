@@ -34,3 +34,6 @@ x64/Debug/DreamEngine.exe
 x64/Debug/DreamEngine.pdb
 DreamEngine/x64
 x64
+*.vsidx
+*.db
+.vs/DreamEngine/v17/.suo
