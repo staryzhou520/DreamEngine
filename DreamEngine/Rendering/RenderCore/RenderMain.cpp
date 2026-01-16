@@ -6,7 +6,7 @@
 
 void RenderMain::Init()
 {
-    Render = RenderFactory::CreateRenderer(RenderType::OpenGL);
+    Render = RenderFactory::CreateRenderer(RenderType::Software);
     Render->Init();
 }
 

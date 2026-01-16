@@ -4,7 +4,7 @@
 class RenderSoftWare: public RenderBase
 {
 public:
-    void Draw() override;
     void Init() override;
+    void Draw() override;
     
 };

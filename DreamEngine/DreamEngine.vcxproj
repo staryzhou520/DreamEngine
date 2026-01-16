@@ -185,6 +185,7 @@
     <Content Include="Rendering\README.md" />
     <Content Include="Saved\Image\awesomeface.png" />
     <Content Include="Saved\Image\wall.jpg" />
+    <Content Include="Saved\Software\Software.png" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FileSystem\FileUtil.h" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Core\Object.h" />
     <ClInclude Include="Game\GameMain.h" />
     <ClInclude Include="Plugin\stb_Image\stb_image.h" />
+    <ClInclude Include="Plugin\stb_Image\stb_image_write.h" />
     <ClInclude Include="Rendering\OpenGL\BufferCode\DrawObject.h" />
     <ClInclude Include="Rendering\OpenGL\BufferCode\DrawObjectTwoTexture.h" />
     <ClInclude Include="Rendering\OpenGL\RenderOpenGL.h" />
