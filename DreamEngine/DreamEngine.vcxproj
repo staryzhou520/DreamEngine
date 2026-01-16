@@ -33,25 +33,25 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -175,6 +175,7 @@
     <ClCompile Include="Rendering\RenderCore\RenderMain.cpp" />
     <ClCompile Include="Core\Input\WindowsInputProcessor.cpp" />
     <ClCompile Include="Core\Input\MobileInputProcessor.cpp" />
+    <ClCompile Include="Rendering\Software\RenderSoftWare.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="README.md" />
@@ -201,6 +202,7 @@
     <ClInclude Include="Core\Input\IInputProcessor.h" />
     <ClInclude Include="Core\Input\WindowsInputProcessor.h" />
     <ClInclude Include="Core\Input\MobileInputProcessor.h" />
+    <ClInclude Include="Rendering\Software\RenderSoftWare.h" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Rendering\OpenGL\ShaderCode\shader_1.fs" />
