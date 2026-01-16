@@ -1,4 +1,6 @@
 #include <iostream>
+#include <chrono>
+#include <thread>
 
 #include "Core/Object.h"
 #include "Core/Input/IInputProcessor.h"
@@ -46,11 +48,25 @@ void CleanupGame()
 
 int main(int argc, char* argv[])
 {
+    // 从配置文件读取目标帧率
+    int TargetFPS = 60;
+    const std::chrono::milliseconds TargetFrameTime(1000 / TargetFPS);
+    
+    std::cout << "Target FPS: " << TargetFPS << std::endl;
     
     InitGame();
     
+    auto LastFrameTime = std::chrono::high_resolution_clock::now();
+    
     while (true)
     {
+        auto FrameStartTime = std::chrono::high_resolution_clock::now();
+        
+        // 计算上一帧的耗时
+        auto DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(
+            FrameStartTime - LastFrameTime).count();
+        LastFrameTime = FrameStartTime;
+        
         // 获取用户输入
         _InputProcessor->ProcessInput();
 
@@ -68,6 +84,19 @@ int main(int argc, char* argv[])
         // 渲染主循环
         _RenderMain->Tick();
         
+        // 帧率控制
+        auto FrameEndTime = std::chrono::high_resolution_clock::now();
+        auto FrameTime = std::chrono::duration_cast<std::chrono::milliseconds>(
+            FrameEndTime - FrameStartTime);
+        
+        if (FrameTime < TargetFrameTime)
+        {
+            auto SleepTime = TargetFrameTime - FrameTime;
+            std::this_thread::sleep_for(SleepTime);
+        }
+        
+        // 可选：打印帧率信息用于调试
+        // std::cout << "FPS: " << (1000.0f / std::max(FrameTime.count(), 1ll)) << std::endl;
     }
     
     CleanupGame();

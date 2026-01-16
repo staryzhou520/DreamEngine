@@ -122,5 +122,8 @@
     <ClInclude Include="Core\Input\MobileInputProcessor.h">
       <Filter>Header Files\Core\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Plugin\stb_Image\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

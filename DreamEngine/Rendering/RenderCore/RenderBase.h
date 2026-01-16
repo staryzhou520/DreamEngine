@@ -3,9 +3,9 @@
 class RenderBase
 {
 public:
-    virtual void Draw();
+    virtual void Draw() = 0;
 
-    virtual void Init();
+    virtual void Init() = 0;
 
     virtual void End();
 };
