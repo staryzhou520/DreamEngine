@@ -160,7 +160,7 @@ void RenderOpenGL::Init()
     //glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 
-    Window = glfwCreateWindow(1600, 900, "DreamEngine", NULL, NULL);
+    Window = glfwCreateWindow(Width, Height, "DreamEngine", NULL, NULL);
     if (Window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
@@ -175,7 +175,7 @@ void RenderOpenGL::Init()
         std::cout << "Failed to initialize GLAD" << std::endl;
         return;
     }
-    glViewport(0, 0, 1600, 900);
+    glViewport(0, 0, Width, Height);
 
     InitDrawBuffer();
     

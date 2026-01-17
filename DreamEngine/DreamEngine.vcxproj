@@ -188,6 +188,7 @@
     <Content Include="Saved\Software\Software.png" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Color\SColor.h" />
     <ClInclude Include="Core\FileSystem\FileUtil.h" />
     <ClInclude Include="Core\Image\ImageUtil.h" />
     <ClInclude Include="Core\Input\InputFactory.h" />
