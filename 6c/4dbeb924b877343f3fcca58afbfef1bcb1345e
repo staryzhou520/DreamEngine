@@ -1,0 +1,32 @@
+DreamEngine/Core/Math/Vector2D.cpp
+  h_6aa8b747eb9249 1
+DreamEngine/Core/Math/Vector2D.h
+  h_6aa8b747eb9249 1-14
+DreamEngine/Core/Math/Vector3D.cpp
+  h_6aa8b747eb9249 1
+DreamEngine/Core/Math/Vector3D.h
+  h_6aa8b747eb9249 1-15
+DreamEngine/DreamEngine.vcxproj
+  h_6aa8b747eb9249 165-241,256,273-274,290
+DreamEngine/Rendering/RenderCore/RenderMain.cpp
+  h_6aa8b747eb9249 9
+DreamEngine/Rendering/Software/FrameBuffer.cpp
+  h_6aa8b747eb9249 1
+DreamEngine/Rendering/Software/FrameBuffer.h
+  h_6aa8b747eb9249 1-25
+DreamEngine/Rendering/Software/RenderSoftWare.cpp
+  h_6aa8b747eb9249 11,17-47,51-54
+DreamEngine/Rendering/Software/RenderSoftWare.h
+  h_6aa8b747eb9249 2,11-15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "6c4dbeb924b877343f3fcca58afbfef1bcb1345e",
+  "prompts": {},
+  "humans": {
+    "h_6aa8b747eb9249": {
+      "author": "staryzhou520 <401360663@qq.com>"
+    }
+  }
+}
