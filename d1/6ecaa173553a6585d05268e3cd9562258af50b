@@ -1,0 +1,18 @@
+DreamEngine/DreamEngine.vcxproj
+  h_6aa8b747eb9249 299-301
+DreamEngine/Rendering/Software/RenderSoftWare.cpp
+  h_6aa8b747eb9249 42,44-45,47-48,51-78,97
+DreamEngine/Rendering/Software/RenderSoftWare.h
+  h_6aa8b747eb9249 14-16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d16ecaa173553a6585d05268e3cd9562258af50b",
+  "prompts": {},
+  "humans": {
+    "h_6aa8b747eb9249": {
+      "author": "staryzhou520 <401360663@qq.com>"
+    }
+  }
+}
