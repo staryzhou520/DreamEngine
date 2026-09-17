@@ -1,0 +1,19 @@
+AGENTS.md
+  s_74908a5032faff::t_84d12338ffcf1b 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "b7a1c15d93f5df99629dd4ea7b2937f01d0faef3",
+  "prompts": {},
+  "sessions": {
+    "s_74908a5032faff": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0ad12-df34-7e03-917b-c812b47bcca2",
+        "model": "unknown"
+      },
+      "human_author": "staryzhou520 <401360663@qq.com>"
+    }
+  }
+}
