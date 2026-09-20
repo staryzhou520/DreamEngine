@@ -39,6 +39,7 @@ struct SColor
     static SColor Red()   { return SColor(255, 0, 0, 255); }
     static SColor Green() { return SColor(0, 255, 0, 255); }
     static SColor Blue()  { return SColor(0, 0, 255, 255); }
+    static SColor Yellow() { return SColor(255, 255, 0, 255); }
     static SColor White() { return SColor(255, 255, 255, 255); }
     static SColor Black() { return SColor(0, 0, 0, 255); }
 };
