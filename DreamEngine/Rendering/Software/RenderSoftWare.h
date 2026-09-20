@@ -11,6 +11,21 @@ public:
     
     // 画线
     void DrawLine(Vector2D start, Vector2D end,SColor color);
+
+    // 画三角形
+    void DrawTriangle(Vector2D A, Vector2D B, Vector2D C);
+
+    // 画实心三角形
+    void DrawFilledTriangle(Vector2D A, Vector2D B, Vector2D C, SColor color);
+    
+    void Present();
+
+private:
+    FrameBuffer frame_buffer;
+
+    // 综合测试场景：小房子，用于肉眼验证画线的各种边界情况
+    void DrawHouse();
+    
     // DDA 画线法，相当于以最小像素点为单位，取长边一步一步迭代，四舍五入取对应点。
     void DrawLineDDA(Vector2D start, Vector2D end, SColor color);
 
@@ -18,18 +33,7 @@ public:
     {
         DrawLineBresenham_5(start,end,color);
     }
-
-    // 画三角形
-    void DrawTriangle(Vector2D A, Vector2D B, Vector2D C);
-
-    // 综合测试场景：小房子，用于肉眼验证画线的各种边界情况
-    void DrawHouse();
-
-    void Present();
-
-private:
-    FrameBuffer frame_buffer;
-
+    
     // —— 以下 5 个版本为 Bresenham 算法的迭代实现，耗时为实测数据 ——
     // 测试条件：DrawHouse 场景 20 条线段（水平/垂直/斜线/单点 + 两条跨屏长斜线），
     // 每版本绘制 30000 轮、重复 5 次取最优；MSVC 2022 x64，分别测 Release /O2 与 Debug /Od。

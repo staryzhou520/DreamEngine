@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-// 这里面要支持 int + int  float+flaot int + float 等多种组合，
+// 这里面要支持 int + int  float+flaot int
 struct Vector2D
 {
 public:

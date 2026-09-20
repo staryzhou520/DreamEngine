@@ -1,7 +1,13 @@
 ﻿#include "RenderSoftWare.h"
 
+#include <algorithm>
+#include <chrono>
+#include <cmath>
+
 #include "../../Core/Color/SColor.h"
 #include "../../Core/Image/ImageUtil.h"
+#include "../../Core/Math/MathUtil.h"
+#include "../../Core/Math/AABB2D.h"
 
 // CPU版软光栅器
 
@@ -15,7 +21,9 @@ void RenderSoftWare::Draw()
     
     // 清屏幕
     frame_buffer.Clear(SColor::Black());
-    DrawHouse();
+    //DrawHouse();
+
+    DrawFilledTriangle({100,100},{200,100},{200,200},SColor::White());
     Present();
 }
 
@@ -382,6 +390,45 @@ void RenderSoftWare::DrawLineBresenham_5(Vector2D start, Vector2D end, SColor co
 void RenderSoftWare::DrawTriangle(Vector2D a, Vector2D b, Vector2D c)
 {
     
+}
+
+void RenderSoftWare::DrawFilledTriangle(Vector2D A, Vector2D B, Vector2D C, SColor color)
+{
+    // 面积为0的三角形不画，直接return 掉
+    const float are2 = MathUtil::Area2D(A, B, C);
+    if (are2 == 0.0f)
+    {
+        return;
+    }
+    
+    // 历一下周围像素，在三角形内的，点亮，三角形外的，不处理 可以使用AABB包围盒减少遍历范围
+    // 如果像素中点在三角形内，则该像素点亮
+    const int width  = frame_buffer.GetWidth();
+    const int height = frame_buffer.GetHeight();
+
+    const AABB2D aabb(A, B, C);
+
+    const int min_x = std::max(0, static_cast<int>(std::floor(aabb.Min.X)));
+    const int max_x = std::min(width  - 1, static_cast<int>(std::ceil(aabb.Max.X)));
+    const int min_y = std::max(0, static_cast<int>(std::floor(aabb.Min.Y)));
+    const int max_y = std::min(height - 1, static_cast<int>(std::ceil(aabb.Max.Y)));
+
+    const Triangle2D triangle(A, B, C);
+    for (int x = min_x; x <= max_x; ++x)
+    {
+        for (int y = min_y; y <= max_y; ++y)
+        {
+            // 判断每个像素中点是否在像素中
+            const Vector2D point(static_cast<float>(x)+0.5f, static_cast<float>(y)+0.5f);
+            
+            if (MathUtil::IsPointInTriangle(point, triangle))
+            {
+                frame_buffer.SetPixel(x, y, color);
+            }
+        }
+    }
+    
+
 }
 
 void RenderSoftWare::Present()
