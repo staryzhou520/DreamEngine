@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Bresenham 小房子参考图（标准正确实现）</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 24px 48px;
+    background: #14161a;
+    color: #e6e8eb;
+    font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 6px; letter-spacing: .3px; }
+  .sub { font-size: 13px; color: #8b939e; margin-bottom: 22px; text-align: center; line-height: 1.7; }
+  .sub code { background: #232830; padding: 1px 6px; border-radius: 4px; color: #9ecbff; font-size: 12px; }
+
+  .stage { display: flex; gap: 28px; align-items: flex-start; flex-wrap: wrap; justify-content: center; }
+
+  .panel {
+    background: #1b1f26;
+    border: 1px solid #2b313a;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 8px 28px rgba(0,0,0,.35);
+  }
+  .panel h2 {
+    font-size: 13px; font-weight: 600; margin: 0 0 12px;
+    color: #aab4c0; text-transform: uppercase; letter-spacing: 1.2px;
+  }
+
+  /* 主画布：800x600，按 1:1 逻辑像素展示，缩放到容器内 */
+  #canvas {
+    display: block;
+    width: 800px; height: 600px;
+    background: #000;
+    border-radius: 8px;
+    image-rendering: pixelated;
+  }
+
+  /* 放大镜：局部像素级查看 */
+  #zoom {
+    display: block;
+    width: 320px; height: 320px;
+    background: #000;
+    border-radius: 8px;
+    image-rendering: pixelated;
+    cursor: crosshair;
+  }
+  .zoom-hint { font-size: 12px; color: #7a828c; margin-top: 10px; line-height: 1.6; }
+
+  .legend { margin-top: 16px; font-size: 12.5px; line-height: 2; color: #b9c1cb; }
+  .legend .row { display: flex; align-items: center; gap: 9px; }
+  .swatch { width: 14px; height: 14px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(255,255,255,.18); }
+
+  .cases { margin-top: 18px; font-size: 12.5px; line-height: 1.9; color: #9aa4b0; max-width: 340px; }
+  .cases b { color: #d8dee6; font-weight: 600; }
+  .cases .tag {
+    display: inline-block; min-width: 18px; text-align: center;
+    background: #2b313a; color: #8fd3ff; border-radius: 4px;
+    font-size: 11px; padding: 0 5px; margin-right: 6px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Bresenham 小房子 · 参考图</h1>
+<div class="sub">
+  下面两张图用<strong>同一套坐标</strong>渲染，都是标准正确实现。<br>
+  把你自己程序输出的 <code>Frame.png</code> 和左边这张对比即可。<br>
+  鼠标移到左侧画布上，右侧放大镜会显示该处的像素网格。
+</div>
+
+<div class="stage">
+  <div class="panel">
+    <h2>完整场景 800 × 600</h2>
+    <canvas id="canvas" width="800" height="600"></canvas>
+  </div>
+
+  <div>
+    <div class="panel">
+      <h2>像素放大镜</h2>
+      <canvas id="zoom" width="320" height="320"></canvas>
+      <div class="zoom-hint" id="zoomInfo">移动到左图查看…</div>
+    </div>
+
+    <div class="panel" style="margin-top:16px">
+      <h2>颜色图例</h2>
+      <div class="legend">
+        <div class="row"><span class="swatch" style="background:#fff"></span>墙体（白）矩形四条边</div>
+        <div class="row"><span class="swatch" style="background:#f00"></span>屋顶（红）两条普通斜边</div>
+        <div class="row"><span class="swatch" style="background:#ff8000"></span>门 &amp; 单点（橙）</div>
+        <div class="row"><span class="swatch" style="background:#0ff"></span>窗（青）正方形</div>
+        <div class="row"><span class="swatch" style="background:#0f0"></span>地面（绿）水平长线</div>
+        <div class="row"><span class="swatch" style="background:#f0f"></span>烟囱（品红）</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel" style="margin-top:26px; max-width:1000px">
+  <h2>这张图覆盖的测试用例</h2>
+  <div style="display:flex; gap:40px; flex-wrap:wrap">
+    <div class="cases">
+      <div><span class="tag">1</span><b>水平线</b> dy == 0 · 墙顶/墙底</div>
+      <div><span class="tag">2</span><b>垂直线</b> dx == 0 · 墙左右</div>
+      <div><span class="tag">3</span><b>缓斜线</b> |dx| &gt; |dy| · 屋顶两条斜边</div>
+      <div><span class="tag">4</span><b>反向绘制</b> sx == -1 · 地面从右往左</div>
+    </div>
+    <div class="cases">
+      <div><span class="tag">5</span><b>反向绘制</b> sy == -1 · 烟囱从下往上</div>
+      <div><span class="tag">6</span><b>端点闭合</b> 屋顶底边与墙顶共用端点</div>
+      <div><span class="tag">7</span><b>退化单点</b> MaxDel == 0 · 左上角 (80,80)</div>
+      <div><span class="tag">8</span><b>无累积误差</b> 长线段不得出现 ±1 抖动</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// 与 C++ 完全一致的坐标定义（改一处两边都能对上）
+// ============================================================
+const W = 800, H = 600;
+
+const P = {
+  wallLeft: 200, wallRight: 600, wallTop: 250, wallBottom: 550,
+  roofApexX: 400, roofApexY: 110,
+  doorLeft: 360, doorRight: 440, doorTop: 420,
+  winLeft: 240, winRight: 330, winTop: 300, winBottom: 390,
+  chimLeft: 500, chimRight: 560, chimTop: 140
+};
+
+const COLORS = {
+  wall:    [255, 255, 255],
+  roof:    [255,   0,   0],
+  door:    [255, 128,   0],
+  window:  [  0, 255, 255],
+  ground:  [  0, 255,   0],
+  chimney: [255,   0, 255]
+};
+
+// ============================================================
+// 2D 像素画布：直接操作 ImageData，1 逻辑像素 = 1 数组像素
+// ============================================================
+function makeCanvas(w, h) {
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d');
+  const img = ctx.createImageData(w, h);
+  // 初始化为不透明黑（对应 C++ Clear(SColor::Black())）
+  for (let i = 0; i < img.data.length; i += 4) {
+    img.data[i] = 0; img.data[i+1] = 0; img.data[i+2] = 0; img.data[i+3] = 255;
+  }
+  return { cv, ctx, img, w, h };
+}
+
+function setPixel(target, x, y, color) {
+  if (x < 0 || x >= target.w || y < 0 || y >= target.h) return; // 与 FrameBuffer::SetPixel 一致
+  const i = (y * target.w + x) * 4;
+  target.img.data[i]     = color[0];
+  target.img.data[i + 1] = color[1];
+  target.img.data[i + 2] = color[2];
+  target.img.data[i + 3] = 255;
+}
+
+function flush(target) {
+  target.ctx.putImageData(target.img, 0, 0);
+}
+
+// ============================================================
+// 标准正确版 Bresenham（整数误差判别式，覆盖全部八方向）
+// 与 C++ 里的 DrawLineBresenham_5 保持一致。
+// ============================================================
+function drawLineBresenham(target, x1, y1, x2, y2, color) {
+  x1 = Math.round(x1); y1 = Math.round(y1);
+  x2 = Math.round(x2); y2 = Math.round(y2);
+
+  const dx =  Math.abs(x2 - x1);
+  const dy = -Math.abs(y2 - y1);           // 注意是负的
+  const sx = x1 < x2 ? 1 : -1;
+  const sy = y1 < y2 ? 1 : -1;
+  let err = dx + dy;
+
+  for (;;) {
+    setPixel(target, x1, y1, color);
+    if (x1 === x2 && y1 === y2) break;
+    const e2 = 2 * err;
+    if (e2 >= dy) { err += dy; x1 += sx; }
+    if (e2 <= dx) { err += dx; y1 += sy; }
+  }
+}
+
+// ============================================================
+// 按照 C++ DrawHouse() 的顺序，逐条画出来
+// ============================================================
+function buildScene(target) {
+  const L = (x1, y1, x2, y2, c) => drawLineBresenham(target, x1, y1, x2, y2, c);
+
+  // 1. 墙体
+  L(P.wallLeft,  P.wallTop,    P.wallRight, P.wallTop,    COLORS.wall);
+  L(P.wallLeft,  P.wallBottom, P.wallRight, P.wallBottom, COLORS.wall);
+  L(P.wallLeft,  P.wallTop,    P.wallLeft,  P.wallBottom, COLORS.wall);
+  L(P.wallRight, P.wallTop,    P.wallRight, P.wallBottom, COLORS.wall);
+
+  // 2. 屋顶
+  L(P.wallLeft,    P.wallTop,   P.roofApexX, P.roofApexY, COLORS.roof);
+  L(P.roofApexX,   P.roofApexY, P.wallRight, P.wallTop,   COLORS.roof);
+
+  // 3. 门
+  L(P.doorLeft,  P.doorTop, P.doorRight, P.doorTop,    COLORS.door);
+  L(P.doorLeft,  P.doorTop, P.doorLeft,  P.wallBottom, COLORS.door);
+  L(P.doorRight, P.doorTop, P.doorRight, P.wallBottom, COLORS.door);
+
+  // 4. 窗
+  L(P.winLeft,  P.winTop,    P.winRight, P.winTop,    COLORS.window);
+  L(P.winLeft,  P.winBottom, P.winRight, P.winBottom, COLORS.window);
+  L(P.winLeft,  P.winTop,    P.winLeft,  P.winBottom, COLORS.window);
+  L(P.winRight, P.winTop,    P.winRight, P.winBottom, COLORS.window);
+
+  // 5. 烟囱（从下往上）
+  L(P.chimLeft,  P.wallTop,   P.chimLeft,  P.chimTop, COLORS.chimney);
+  L(P.chimRight, P.wallTop,   P.chimRight, P.chimTop, COLORS.chimney);
+  L(P.chimLeft,  P.chimTop,   P.chimRight, P.chimTop, COLORS.chimney);
+
+  // 6. 地面（从右往左）
+  L(700, 575, 50, 575, COLORS.ground);
+
+  // 7. 退化单点
+  L(80, 80, 80, 80, COLORS.door);
+}
+
+// ---- 渲染主画布 ----
+const main = makeCanvas(W, H);
+buildScene(main);
+flush(main);
+document.getElementById('canvas').getContext('2d').drawImage(main.cv, 0, 0);
+
+// ============================================================
+// 放大镜：把鼠标位置的像素放大成网格
+// ============================================================
+const ZOOM_PX = 16;          // 放大后每个像素占多少屏幕像素
+const ZOOM_CELLS = 320 / ZOOM_PX;  // 20x20 个像素
+const zoom = document.getElementById('zoom');
+const zctx = zoom.getContext('2d');
+const zoomInfo = document.getElementById('zoomInfo');
+
+function renderZoom(cx, cy) {
+  zctx.imageSmoothingEnabled = false;
+  zctx.fillStyle = '#000';
+  zctx.fillRect(0, 0, zoom.width, zoom.height);
+
+  const half = ZOOM_CELLS / 2;
+  const ox = cx - half, oy = cy - half;
+
+  // 画出像素块
+  for (let j = 0; j < ZOOM_CELLS; j++) {
+    for (let i = 0; i < ZOOM_CELLS; i++) {
+      const px = ox + i, py = oy + j;
+      if (px < 0 || px >= W || py < 0 || py >= H) continue;
+      const k = (py * W + px) * 4;
+      const d = main.img.data;
+      zctx.fillStyle = `rgb(${d[k]},${d[k+1]},${d[k+2]})`;
+      zctx.fillRect(i * ZOOM_PX, j * ZOOM_PX, ZOOM_PX, ZOOM_PX);
+    }
+  }
+
+  // 网格线
+  zctx.strokeStyle = 'rgba(120,140,170,.35)';
+  zctx.lineWidth = 1;
+  for (let i = 0; i <= ZOOM_CELLS; i++) {
+    zctx.beginPath(); zctx.moveTo(i * ZOOM_PX + .5, 0); zctx.lineTo(i * ZOOM_PX + .5, zoom.height); zctx.stroke();
+    zctx.beginPath(); zctx.moveTo(0, i * ZOOM_PX + .5); zctx.lineTo(zoom.width, i * ZOOM_PX + .5); zctx.stroke();
+  }
+
+  // 中心十字准星（标注当前像素）
+  zctx.strokeStyle = '#ffd166';
+  zctx.lineWidth = 2;
+  const cx0 = half * ZOOM_PX, cy0 = half * ZOOM_PX;
+  zctx.strokeRect(cx0 + 1, cy0 + 1, ZOOM_PX - 2, ZOOM_PX - 2);
+
+  zoomInfo.textContent = `当前像素：(${cx}, ${cy})   ·   黄框 = 鼠标所在像素`;
+}
+
+const canvasEl = document.getElementById('canvas');
+canvasEl.addEventListener('mousemove', (e) => {
+  const r = canvasEl.getBoundingClientRect();
+  const x = Math.floor((e.clientX - r.left) * (W / r.width));
+  const y = Math.floor((e.clientY - r.top)  * (H / r.height));
+  if (x >= 0 && x < W && y >= 0 && y < H) renderZoom(x, y);
+});
+canvasEl.addEventListener('mouseleave', () => {
+  zoomInfo.textContent = '移动到左图查看…';
+});
+
+// 初始定位到屋顶尖 (400,110)
+renderZoom(400, 110);
+</script>
+
+</body>
+</html>

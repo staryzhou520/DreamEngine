@@ -11,5 +11,10 @@ void FrameBuffer::Clear(SColor color)
 
 void FrameBuffer::SetPixel(int x, int y, SColor color)
 {
+    if (x < 0 || x >= _width || y < 0 || y >= _height)
+    {
+        return;
+    }
+
     _buffer[y * _width + x] = color;
 }
