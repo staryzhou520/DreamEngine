@@ -1,0 +1,19 @@
+DreamEngine/Core/Math/Primitives.h
+  s_4b486b4379cbff::t_4d03a63852572f 1-4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "c69deeee263106cc429dce0713226cabc94a791b",
+  "prompts": {},
+  "sessions": {
+    "s_4b486b4379cbff": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0bcd6-c329-7ae0-989a-691df3ce99b7",
+        "model": "unknown"
+      },
+      "human_author": "staryzhou520 <401360663@qq.com>"
+    }
+  }
+}
