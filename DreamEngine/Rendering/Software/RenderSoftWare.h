@@ -17,6 +17,9 @@ public:
 
     // 画实心三角形
     void DrawFilledTriangle(Vector2D A, Vector2D B, Vector2D C, SColor color);
+
+    // 画彩色三角形
+    void DrawColoredTriangle(Vector2D A, Vector2D B, Vector2D C, SColor colorA, SColor colorB, SColor colorC);
     
     void Present();
 

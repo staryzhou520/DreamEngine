@@ -23,7 +23,8 @@ void RenderSoftWare::Draw()
     frame_buffer.Clear(SColor::Black());
     //DrawHouse();
 
-    DrawFilledTriangle({100,100},{200,100},{200,200},SColor::White());
+    //DrawFilledTriangle({100,100},{200,100},{200,200},SColor::White());
+    DrawColoredTriangle({100,100},{200,100},{200,200},SColor::Blue(),SColor::Red(),SColor::Green());
     Present();
 }
 
@@ -429,6 +430,49 @@ void RenderSoftWare::DrawFilledTriangle(Vector2D A, Vector2D B, Vector2D C, SCol
     }
     
 
+}
+
+void RenderSoftWare::DrawColoredTriangle(Vector2D A, Vector2D B, Vector2D C, SColor colorA, SColor colorB,SColor colorC)
+{
+    // 面积为0的三角形不画，直接return 掉
+    const float are2 = MathUtil::Area2D(A, B, C);
+    if (are2 == 0.0f)
+    {
+        return;
+    }
+    
+    // 历一下周围像素，在三角形内的，点亮，三角形外的，不处理 可以使用AABB包围盒减少遍历范围
+    // 如果像素中点在三角形内，则该像素点亮
+    const int width  = frame_buffer.GetWidth();
+    const int height = frame_buffer.GetHeight();
+
+    const AABB2D aabb(A, B, C);
+
+    const int min_x = std::max(0, static_cast<int>(std::floor(aabb.Min.X)));
+    const int max_x = std::min(width  - 1, static_cast<int>(std::ceil(aabb.Max.X)));
+    const int min_y = std::max(0, static_cast<int>(std::floor(aabb.Min.Y)));
+    const int max_y = std::min(height - 1, static_cast<int>(std::ceil(aabb.Max.Y)));
+
+    const Triangle2D triangle(A, B, C);
+    for (int x = min_x; x <= max_x; ++x)
+    {
+        for (int y = min_y; y <= max_y; ++y)
+        {
+            // 判断每个像素中点是否在像素中
+            const Vector2D point(static_cast<float>(x)+0.5f, static_cast<float>(y)+0.5f);
+            
+            if (MathUtil::IsPointInTriangle(point, triangle))
+            {
+                float w0 = MathUtil::Area2D(B, C, point) / are2;
+                float w1 = MathUtil::Area2D(C, A, point) / are2;
+                float w2 = MathUtil::Area2D(A, B, point) / are2;
+                // 获得插值后的color
+                const SColor color = SColor::Lerp(w0, colorA, w1, colorB, w2, colorC);
+                
+                frame_buffer.SetPixel(x, y, color);
+            }
+        }
+    }
 }
 
 void RenderSoftWare::Present()
