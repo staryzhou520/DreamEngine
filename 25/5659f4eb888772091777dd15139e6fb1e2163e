@@ -1,0 +1,25 @@
+DreamEngine/Rendering/Software/FrameBuffer.cpp
+  s_4b486b4379cbff::t_3d5252f9c0a753 14-18
+DreamEngine/Rendering/Software/RenderSoftWare.cpp
+  s_4b486b4379cbff::t_70be6e40de021c 18-20,22-95,102-103,106,112-137,149-159,161-191,194,197-198,200-339,342-355,357-380
+DreamEngine/Rendering/Software/RenderSoftWare.h
+  s_4b486b4379cbff::t_c46b84b6e8b6ca 16-20,25-27,32-37
+DreamEngine/Saved/Software/house_reference.html
+  s_4b486b4379cbff::t_a2032267158485 1-304
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "255659f4eb888772091777dd15139e6fb1e2163e",
+  "prompts": {},
+  "sessions": {
+    "s_4b486b4379cbff": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0bcd6-c329-7ae0-989a-691df3ce99b7",
+        "model": "unknown"
+      },
+      "human_author": "staryzhou520 <401360663@qq.com>"
+    }
+  }
+}
